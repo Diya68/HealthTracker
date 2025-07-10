@@ -1,0 +1,102 @@
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+  } from "@/components/ui/table";
+  import { Badge } from "@/components/ui/badge";
+  import { Button } from "@/components/ui/button";
+  import Link from "next/link";
+  import { PlusCircle } from "lucide-react";
+  
+  const appointments = [
+    {
+      doctor: "Dr. Evelyn Reed",
+      specialty: "Cardiologist",
+      date: "2024-08-15",
+      time: "10:00 AM",
+      status: "Confirmed",
+    },
+    {
+      doctor: "Dr. Samuel Green",
+      specialty: "Dermatologist",
+      date: "2024-08-20",
+      time: "02:30 PM",
+      status: "Pending",
+    },
+    {
+      doctor: "Dr. Lena Petrova",
+      specialty: "Neurologist",
+      date: "2024-07-22",
+      time: "11:00 AM",
+      status: "Cancelled",
+    },
+    {
+        doctor: "Dr. John Carter",
+        specialty: "Pediatrician",
+        date: "2024-06-10",
+        time: "09:00 AM",
+        status: "Completed",
+    },
+    {
+      doctor: "Dr. Alice Wong",
+      specialty: "General Practitioner",
+      date: "2024-09-01",
+      time: "04:00 PM",
+      status: "Confirmed",
+    },
+  ];
+  
+  const statusVariant: { [key: string]: "default" | "secondary" | "destructive" | "outline" } = {
+    Confirmed: "default",
+    Pending: "secondary",
+    Cancelled: "destructive",
+    Completed: "outline"
+  };
+  
+  export default function AppointmentsPage() {
+    return (
+      <div className="container mx-auto py-10">
+        <div className="flex justify-between items-center mb-8">
+            <h1 className="text-3xl font-bold font-headline">Your Appointments</h1>
+            <Button asChild>
+                <Link href="/book-appointment">
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Book New Appointment
+                </Link>
+            </Button>
+        </div>
+        <div className="rounded-lg border shadow-sm">
+            <Table>
+            <TableHeader>
+                <TableRow>
+                <TableHead>Doctor</TableHead>
+                <TableHead>Specialty</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Time</TableHead>
+                <TableHead className="text-right">Status</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                {appointments.map((appointment, index) => (
+                <TableRow key={index}>
+                    <TableCell className="font-medium">{appointment.doctor}</TableCell>
+                    <TableCell className="text-muted-foreground">{appointment.specialty}</TableCell>
+                    <TableCell>{new Date(appointment.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</TableCell>
+                    <TableCell>{appointment.time}</TableCell>
+                    <TableCell className="text-right">
+                    <Badge variant={statusVariant[appointment.status]}>
+                        {appointment.status}
+                    </Badge>
+                    </TableCell>
+                </TableRow>
+                ))}
+            </TableBody>
+            </Table>
+        </div>
+      </div>
+    );
+  }
+  
